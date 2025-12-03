@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calander</title>
+  </head>
+  <style>
+
+                body{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 96vh;
+                    font-family:sans-serif;
+                    color: rgb(50, 50, 50);
+                    /* font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; */
+                    background: linear-gradient(135deg, #74ebd5, #acb6e5); Text color: #333, Button and month text : #fff
+                }
+                p{
+                  font-size: x-large;
+                  font-weight: 700;
+                  margin: 0;
+                }
+                .main-div{
+                    height: 500px;
+                    width: 500px;
+                            flex-direction: column;
+
+                     display: flex;
+                    /* justify-content: center; */
+
+                    align-items: center;
+                    gap:15px;
+
+                    /* background-color: rgb(214, 252, 252);     */
+                }
+    .input-div{
+      display: flex;
+      gap: 10px;
+    }
+
+                input{
+            height: 22px;
+            border: 0px;
+            border-radius: 6px;
+            border: none;
+            outline: none;
+            border-width: 0;
+    padding-left:10px;
+                }
+
+                input:focus {
+        outline: none;
+        border: none;
+        box-shadow: none;
+    }
+                .month-input{
+                  width: 50px;
+                }
+                        .year-input{
+                  width: 150px;
+                }
+                button{
+                    height: 25px;
+            border: 0px;
+            border-radius: 6px;
+                        background-color: rgb(40, 40, 40);
+                    color: white;
+
+                }
+
+                .cal-div{
+                    height: 220px;
+                    width: 350px;
+                    background-color: #EAF5F9;
+                    padding : 12px;
+
+                    display: grid;
+        font-size:smaller;
+
+                    grid-template-columns: repeat(7, 1fr);
+                    grid-template-rows: repeat(5, 1fr);
+                    font-weight: 600;
+                    grid-gap: 5px;
+            border-radius: 9px;
+
+                }
+                .cell{
+                  /* font-family: Arial, Helvetica, sans-serif; */
+                    font-weight:100;
+                    background-color:white;
+                    color: black;
+                    display: flex;
+                    justify-content: center;
+                    align-items:center ;
+                    height: 30px;
+                    border-radius: 6px;}
+                .day-names{
+                  /* font-family: Arial, Helvetica, sans-serif; */
+                    font-weight:100;
+                    background-color: rgb(40, 40, 40);
+                    color: white;
+                    display: flex;
+                    justify-content: center;
+                    align-items:center ;
+                    height: 30px;
+                    border-radius: 6px;
+                  }
+                  .error{
+                    font-size: x-small;
+                    margin: 0;
+                    padding: 0;
+                    font-weight: 600;
+                  }
+  </style>
+  <body>
+    <div class="main-div">
+      <p>Custom Calander Generator</p>
+
+      <div class="input-div">
+        <input
+          type="number"
+          placeholder="month"
+          name="month"
+          id="month"
+          class="month-input"
+        />
+        <input
+          type="number"
+          class="year-input"
+          placeholder="year"
+          name="year"
+          id="year"
+        />
+        <button class="btn" onclick="generate()">Generate</button>
+      </div>
+      <div class="error" id="error"></div>
+
+      <div class="cal-div" id="gridBox">
+        <div class="day-names day-box">Sun</div>
+        <div class="day-names day-box">Mon</div>
+        <div class="day-names day-box">Tue</div>
+        <div class="day-names day-box">Wed</div>
+        <div class="day-names day-box">Thu</div>
+        <div class="day-names day-box">Fri</div>
+        <div class="day-names day-box">Sat</div>
+      </div>
+    </div>
+
+    <script>
+      function generate() {
+        const grid = document.getElementById("gridBox");
+        const error = document.getElementById("error");
+
+        grid.innerHTML = "";
+
+        let month = document.getElementById("month").value;
+        let year = document.getElementById("year").value;
+
+
+        if (month === "" || year === "") {
+          error.innerText = "Please fill both month and year.";
+          return;
+        } 
+        if (month < 1 || month > 12) {
+          error.innerText = "Month must be between 1 and 12.";
+          return;
+        }
+
+          error.innerHTML = "";
+          let FirstDay = new Date(year, month - 1, 1);
+          let TotalDays = new Date(year, month, 0).getDate();
+
+          // FirstDay = new Date(2026, 0, 1);
+          // LastDay = new Date(2026, 2, 1);
+
+          let FirstDayIndex = FirstDay.getDay();
+          console.log(FirstDay);
+          console.log(TotalDays);
+
+          let EmptyDate = 0;
+
+          switch (FirstDayIndex) {
+            case 0:
+              EmptyDate = 0;
+              break;
+
+            case 1:
+              EmptyDate = 1;
+              break;
+
+            case 2:
+              EmptyDate = 2;
+              break;
+
+            case 3:
+              EmptyDate = 3;
+              break;
+
+            case 4:
+              EmptyDate = 4;
+              break;
+
+            case 5:
+              EmptyDate = 5;
+              break;
+
+            case 6:
+              EmptyDate = 6;
+              break;
+          }
+
+          function addDays(text) {
+            const item = document.createElement("div");
+            item.className = "day-names day-box";
+            item.innerText = text;
+            grid.appendChild(item);
+          }
+          const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+          dayNames.forEach((day) => {
+            addDays(day);
+          });
+
+          function addItem(text) {
+            const item = document.createElement("div");
+            item.className = "cell";
+            item.innerText = text;
+            grid.appendChild(item);
+          }
+
+          function addSpace(text) {
+            const item = document.createElement("div");
+            item.className = "cello";
+            item.innerText = text;
+            grid.appendChild(item);
+          }
+
+          for (let i = 1; i <= EmptyDate; i++) {
+            addSpace("");
+          }
+
+          for (let i = 1; i <= TotalDays; i++) {
+            addItem(i);
+          }
+        }
+      
+    </script>
+  </body>
+</html>
