@@ -76,7 +76,7 @@ button:hover {
 }
 
     .cal-div {
-      height: 220px;
+      height: 250px;
       width: 350px;
       background-color: #eaf5f9;
       padding: 12px;
@@ -134,7 +134,7 @@ button:hover {
     }
   </style>
   <body>
-    <div class="main-div">
+    <div class="main-div" id="main-div">
       <p>Custom Calander Generator</p>
 
       <div class="input-div">
@@ -156,7 +156,7 @@ button:hover {
       </div>
       <div class="error" id="error"></div>
 
-      <div class="cal-div" id="gridBox">
+      <!-- <div class="cal-div" id="gridBox">
         <div class="day-names day-box">Sun</div>
         <div class="day-names day-box">Mon</div>
         <div class="day-names day-box">Tue</div>
@@ -164,15 +164,14 @@ button:hover {
         <div class="day-names day-box">Thu</div>
         <div class="day-names day-box">Fri</div>
         <div class="day-names day-box">Sat</div>
-      </div>
+      </div> -->
     </div>
 
     <script>
       function generate() {
-        const grid = document.getElementById("gridBox");
+        const maindiv = document.getElementById("main-div")
         const error = document.getElementById("error");
 
-        grid.innerHTML = "";
 
         let month = document.getElementById("month").value;
         let year = document.getElementById("year").value;
@@ -185,6 +184,17 @@ button:hover {
           error.innerText = "Month must be between 1 and 12.";
           return;
         }
+
+
+        const box = document.createElement("div");
+          box.className = "cal-div";
+          box.id = "gridBox";
+          maindiv.appendChild(box);
+
+
+        const grid = document.getElementById("gridBox");
+
+        grid.innerHTML = "";
 
         error.innerHTML = "";
         let FirstDay = new Date(year, month - 1, 1);
